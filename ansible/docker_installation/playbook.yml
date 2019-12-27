@@ -1,0 +1,22 @@
+-
+  hosts: all
+  become: yes
+  tasks:
+    - name: 'install docker'
+      yum:
+        name: docker
+        state: present
+    - name: 'create group'
+      group:
+        name: docker
+        state: present
+    - name: 'add vagrant to docker group'
+      user:
+        name: vagrant
+        groups: docker
+        state: present
+    - name: 'start docker'
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
